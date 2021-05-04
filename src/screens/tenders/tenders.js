@@ -1,8 +1,10 @@
-import React from "react";
+import React, {Component} from "react";
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity} from 'react-native';
 import TenderDetail from "../tendersdetail";
 
-const Tenders = () => {
+
+const Tenders = ({navigation}) => {
+
     return (
         <View style={style.container}>
             <View style={style.header}>
@@ -10,7 +12,7 @@ const Tenders = () => {
             </View>
             <ScrollView>
                 <View style={style.tenders}>
-                    <TouchableOpacity onPress={()=> RootNavigation.navigate('TenderDetail')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('TenderDetail')}>
                         <View style={style.tenders_item} >
                             <View style={style.tenders_info}>
                                 <View style={style.item}>

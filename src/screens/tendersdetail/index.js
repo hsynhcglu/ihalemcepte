@@ -1,5 +1,6 @@
-import React from "react";
+import React, {Component} from "react";
 import { StyleSheet, Text, View, ScrollView} from 'react-native';
+
 
 export default class TenderDetail extends React.Component {
 
@@ -18,6 +19,9 @@ export default class TenderDetail extends React.Component {
         )
     }
 }
+
+
+
 
 
 const style = StyleSheet.create({

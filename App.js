@@ -40,13 +40,13 @@ class Info extends React.Component {
 const AppStack = createStackNavigator({
     TenderDetail: {
         screen: TenderDetail,
-    }
+    },
 });
 
 
 const AppNavigator = createBottomTabNavigator({
   Anasayfa: {
-    screen:Register,
+    screen:TenderCreate,
       navigationOptions: {
         tabBarOptions: {
             activeTintColor: '#0cda8f',
@@ -89,7 +89,7 @@ const AppNavigator = createBottomTabNavigator({
         }
     },
     Tekliflerim: {
-        screen:TenderDetail,
+        screen:Tenders,
         navigationOptions: {
             tabBarOptions: {
                 activeTintColor: '#0cda8f',
@@ -104,6 +104,9 @@ const AppNavigator = createBottomTabNavigator({
     },
 
 });
+
+
+
 
 
 export default createAppContainer(AppNavigator);
