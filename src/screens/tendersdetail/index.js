@@ -4,6 +4,12 @@ import { StyleSheet, Text, View, ScrollView} from 'react-native';
 
 export default class TenderDetail extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.item = props.navigation.getParam("item");
+    }
+
     render () {
         return (
             <View style={style.container}>
