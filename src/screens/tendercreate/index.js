@@ -6,9 +6,6 @@ export default class TenderCreate extends React.Component {
     render () {
         return (
             <View style={style.container}>
-                <View style={style.header}>
-                    <Text style={style.header_title}>İhalem Cepte</Text>
-                </View>
                 <ScrollView>
                     <View style={style.logo_area}>
                         <Image style={style.login_image} source={require('../../images/ihalemceptelogo.png')} />

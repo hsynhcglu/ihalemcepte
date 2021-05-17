@@ -1,21 +1,13 @@
 import React, {Component} from "react";
 import { StyleSheet, Text, View, ScrollView} from 'react-native';
+import Tenders from "../tenders/tenders";
 
 
 export default class TenderDetail extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.item = props.navigation.getParam("item");
-    }
-
     render () {
         return (
             <View style={style.container}>
-                <View style={style.header}>
-                    <Text style={style.header_title}>İhalem Cepte</Text>
-                </View>
                 <ScrollView>
                     <View style={style.tenders}>
                         <Text style={{alignItems: 'center', justifyContent:'center', fontSize:26, color:'#0cda8f'}}>ARAÇ DETAY SAYFASI</Text>
@@ -64,9 +56,6 @@ const style = StyleSheet.create({
         fontSize:18,
         fontWeight: '700',
         color: '#ffffff',
-    },
-    item: {
-
     },
     container: {
         flex:1,

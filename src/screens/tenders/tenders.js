@@ -3,66 +3,39 @@ import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, FlatList} 
 import TenderDetail from "../tendersdetail";
 
 
-const DATA = [
-    {
-        id: 'ewew',
-        title: '1. İhale',
-    },
-    {
-        id: 'ddd',
-        title: '2. İhale',
-    },
-    {
-        id: '5www',
-        title: '3. İhale',
-    },
-];
+const Tenders = ({ navigation }) => {
 
-
-class TendersList extends Component {
-
-    gotoDetail = item => {
-        this.props.navigation.navigate("TenderDetail", {
-            item
-        });
-    }
-
-    renderTenderItem = ({item, index}) => {
-        return(
-            <TouchableOpacity onPress={() => this.gotoDetail('item')}>
-                <View style={style.tenders_item} >
-                    <View style={style.tenders_info}>
-                        <View style={style.item}>
-                            <Text style={style.tenders_text}>İhalenin Bitişine Kalan Süre</Text>
+    return (
+        <View style={style.container}>
+            <ScrollView>
+                <View style={style.tenders}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('TenderDetail')
+                    }}>
+                        <View style={style.tenders_item} >
+                            <View style={style.tenders_info}>
+                                <View style={style.item}>
+                                    <Text style={style.tenders_text}>İhalenin Bitişine Kalan Süre</Text>
+                                </View>
+                                <View style={style.item}>
+                                    <Text style={style.tender_text_price}>14 DK</Text>
+                                </View>
+                            </View>
+                            <Image style={style.tenders_image} source={require('../../images/gtr.jpg')} />
+                            <View style={style.tenders_info}>
+                                <View style={style.item}>
+                                    <Text style={style.tenders_text}>Nissan GTR</Text>
+                                </View>
+                                <View style={style.item}>
+                                    <Text style={style.tender_text_price}>En Yüksek Teklif: 1.350.000₺</Text>
+                                </View>
+                            </View>
                         </View>
-                        <View style={style.item}>
-                            <Text style={style.tender_text_price}>14 DK</Text>
-                        </View>
-                    </View>
-                    <Image style={style.tenders_image} source={require('../../images/gtr.jpg')} />
-                    <View style={style.tenders_info}>
-                        <View style={style.item}>
-                            <Text style={style.tenders_text}>Nissan GTR</Text>
-                        </View>
-                        <View style={style.item}>
-                            <Text style={style.tender_text_price}>En Yüksek Teklif: 1.350.000₺</Text>
-                        </View>
-                    </View>
+                    </TouchableOpacity>
                 </View>
-            </TouchableOpacity>
-        )
-    }
-
-    render() {
-        return(
-            <FlatList
-                renderItem={ this.renderTenderItem }
-                keyExtractor={ (item, index) => index.toString() }
-                data={DATA}
-            />
-        )
-    }
-
+            </ScrollView>
+        </View>
+    )
 }
 
 
@@ -124,4 +97,4 @@ const style = StyleSheet.create({
 
 });
 
-export default TendersList;
+export default Tenders;

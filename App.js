@@ -10,6 +10,8 @@ import Register from "./src/screens/register";
 import TenderCreate from "./src/screens/tendercreate";
 import TenderDetail from "./src/screens/tendersdetail";
 import Tenders from "./src/screens/tenders/tenders";
+import 'react-native-gesture-handler';
+import NavigationService from "./src/NavigationService";
 
 class App extends React.Component {
 
@@ -38,15 +40,30 @@ class Info extends React.Component {
 }
 
 const AppStack = createStackNavigator({
+
+    Tenders: {
+        screen: Tenders,
+    },
     TenderDetail: {
         screen: TenderDetail,
     },
+    TendersCreate: {
+        screen: TenderCreate,
+    }
+
+});
+const AppStack2 = createStackNavigator({
+
+    TendersCreate: {
+        screen: TenderCreate,
+    }
+
 });
 
 
 const AppNavigator = createBottomTabNavigator({
   Anasayfa: {
-    screen:TenderCreate,
+    screen:Login,
       navigationOptions: {
         tabBarOptions: {
             activeTintColor: '#0cda8f',
@@ -61,7 +78,7 @@ const AppNavigator = createBottomTabNavigator({
       }
   },
   IhaleOlusturma: {
-    screen: TenderCreate,
+    screen: AppStack2,
       navigationOptions: {
           tabBarOptions: {
               activeTintColor: '#0cda8f',
@@ -75,7 +92,7 @@ const AppNavigator = createBottomTabNavigator({
       }
   },
     Ihalelerim: {
-        screen:Tenders,
+        screen:AppStack,
         navigationOptions: {
             tabBarOptions: {
                 activeTintColor: '#0cda8f',
@@ -89,7 +106,7 @@ const AppNavigator = createBottomTabNavigator({
         }
     },
     Tekliflerim: {
-        screen:Tenders,
+        screen:Register,
         navigationOptions: {
             tabBarOptions: {
                 activeTintColor: '#0cda8f',
