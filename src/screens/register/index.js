@@ -1,45 +1,106 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { Formik } from "formik";
+import * as Yup from "yup";
+import Firebase from '../../../config/keys'
 
 export default class Register extends React.Component {
+
+    constructor() {
+        super();
+        this.state = {
+            hidePassword: true,
+        }
+
+    }
+
+    _handleSubmit = (values) => {
+        Firebase.auth()
+            .createUserWithEmailAndPassword(values.email, values.password)
+            .then(() => alert('Kayıt Başarılı!'))
+            .catch(error => console.log(error))
+    };
 
     render () {
         return (
             <View style={style.container}>
-                <View style={style.header}>
-                    <Text style={style.header_title}>İhalem Cepte</Text>
-                </View>
                 <ScrollView>
                     <View style={style.logo_area}>
                         <Image style={style.login_image} source={require('../../images/ihalemceptelogo.png')} />
                     </View>
+
                     <View style={style.register}>
-                        <View style={style.item}>
-                            <TextInput style={style.input} placeholder={'Adınız ve Soyadınız'} />
-                        </View>
-                        <View style={style.item}>
-                            <TextInput style={style.input} placeholder={'Mail Adresiniz'}/>
-                        </View>
-                        <View style={style.item}>
-                            <View style={{justifyContent:'center'}}>
-                                <TextInput style={style.input} placeholder={'Şifreniz'} />
-                                <TouchableOpacity style={{position:'absolute', right:15, flexDirection: 'row'}}>
-                                    <Feather name="eye-off" size={22} color="#0cda8f" />
-                                </TouchableOpacity>
+
+                        <Formik initialValues={{
+                            email: '',
+                            password: '',
+                        }} onSubmit={this._handleSubmit} validationSchema={Yup.object().shape({
+                            email:Yup.string().required("Mail Adresi Alanı Boş Bırakılamaz!"),
+                            password:Yup.string().required("Şifre Alanı Boş Bırakılamaz!")
+                        })}>
+
+                            {({
+                               values,
+                               handleSubmit,
+                               errors,
+                               handleChange
+                           }) => (
+
+                            <View>
+
+                                <View style={style.item}>
+                                    <TextInput
+                                        style={style.input}
+                                        placeholder={'Mail Adresiniz'}
+                                        values={values.email}
+                                        onChangeText={handleChange('email')}
+                                    />
+                                    {(errors.email) &&  <Text style={style.alert}>{errors.email}</Text>}
+                                </View>
+
+                                <View style={style.item}>
+
+                                    <View style={{justifyContent:'center'}}>
+
+                                        <TextInput
+                                            style={style.input}
+                                            placeholder={'Şifreniz'}
+                                            values={values.password}
+                                            onChangeText={handleChange('password')}
+                                            secureTextEntry={this.state.hidePassword}
+                                        />
+
+                                        <TouchableOpacity onPress={() => this.setState({hidePassword:!this.state.hidePassword})} style={{position:'absolute', right:15, flexDirection: 'row'}}>
+                                            <Feather name={(this.state.hidePassword) ? "eye-off" : "eye"} size={22} color="#0cda8f" />
+                                        </TouchableOpacity>
+
+                                    </View>
+
+                                    {(errors.password) &&  <Text style={style.alert}>{errors.password}</Text>}
+
+                                </View>
+
+                                <View style={style.item}>
+
+                                    <TouchableOpacity onPress={handleSubmit} style={style.button}>
+                                        <Text style={style.button_text}>
+                                            Kayıt Ol
+                                        </Text>
+                                    </TouchableOpacity>
+
+                                </View>
+
                             </View>
-                        </View>
-                        <View style={style.item}>
-                            <TouchableOpacity style={style.button}>
-                                <Text style={style.button_text}>
-                                    Giriş
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
+                        )}
+                        </Formik>
+
                     </View>
+
                     <View style={style.sign_in}>
                         <TouchableOpacity style={style.sign_in_box}>
-                            <Text style={style.sign_up_text}>Hesabınız Var mı? <Text style={{color:'#0cda8f',fontWeight: '700'}}>Giriş Yapın</Text></Text>
+                            <Text style={style.sign_up_text}>Hesabınız Var mı? <Text onPress={() =>
+                                this.props.navigation.navigate('Login')} style={{color:'#0cda8f',fontWeight: '700'}}>Giriş Yapın</Text></Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -61,6 +122,8 @@ const style = StyleSheet.create({
     },
     register: {
         marginTop: 20,
+        paddingRight: 15,
+        paddingLeft: 15
     },
     sign_in: {
         marginTop: 20,
@@ -74,6 +137,7 @@ const style = StyleSheet.create({
     },
     container: {
         flex:1,
+        paddingTop: 40,
         backgroundColor: '#ffffff',
     },
     header: {
@@ -93,7 +157,7 @@ const style = StyleSheet.create({
     input: {
         borderColor: '#0cda8f',
         borderWidth: 1,
-        padding: 10,
+        padding: 15,
         borderRadius: 5,
         color: '#2f2f41',
     },
@@ -107,4 +171,8 @@ const style = StyleSheet.create({
         color: '#ffffff',
         textAlign: 'center',
     },
+    alert: {
+        color: 'red',
+        fontSize: 15
+    }
 });

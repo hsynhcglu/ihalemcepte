@@ -11,7 +11,6 @@ import TenderCreate from "./src/screens/tendercreate";
 import TenderDetail from "./src/screens/tendersdetail";
 import Tenders from "./src/screens/tenders/tenders";
 import 'react-native-gesture-handler';
-import NavigationService from "./src/NavigationService";
 
 class App extends React.Component {
 
@@ -43,27 +42,62 @@ const AppStack = createStackNavigator({
 
     Tenders: {
         screen: Tenders,
+        navigationOptions: () => ({
+            title: 'İhaleler',
+            headerTitleStyle: {
+                alignSelf: 'center',
+                color: '#2f2f41',
+            },
+        })
     },
     TenderDetail: {
         screen: TenderDetail,
+        navigationOptions: () => ({
+            title: 'İhale Detay',
+            headerTitleStyle: {
+                color: '#2f2f41',
+            },
+        })
     },
-    TendersCreate: {
-        screen: TenderCreate,
-    }
 
 });
 const AppStack2 = createStackNavigator({
 
     TendersCreate: {
         screen: TenderCreate,
+        navigationOptions: () => ({
+            title: 'İhale Oluştur',
+            headerTitleStyle: {
+                alignSelf: 'center',
+                color: '#2f2f41',
+            },
+        })
     }
 
 });
 
+const Login_Register = createStackNavigator({
+
+    Login: {
+        screen: Login,
+        navigationOptions: () => ({
+            title: 'Giriş Ekranı',
+            headerShown: false,
+        })
+    },
+    Register: {
+        screen: Register,
+        navigationOptions: () => ({
+            title: 'Kayıt Ekranı',
+            headerShown: false,
+        })
+    }
+
+});
 
 const AppNavigator = createBottomTabNavigator({
   Anasayfa: {
-    screen:Login,
+    screen:Login_Register,
       navigationOptions: {
         tabBarOptions: {
             activeTintColor: '#0cda8f',
@@ -106,7 +140,7 @@ const AppNavigator = createBottomTabNavigator({
         }
     },
     Tekliflerim: {
-        screen:Register,
+        screen:AppStack,
         navigationOptions: {
             tabBarOptions: {
                 activeTintColor: '#0cda8f',
@@ -124,10 +158,7 @@ const AppNavigator = createBottomTabNavigator({
 
 
 
-
-
 export default createAppContainer(AppNavigator);
-
 
 
 
