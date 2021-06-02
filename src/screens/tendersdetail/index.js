@@ -1,19 +1,45 @@
 import React, {Component} from "react";
-import { StyleSheet, Text, View, ScrollView} from 'react-native';
-import Tenders from "../tenders/tenders";
+import {StyleSheet, Text, View, ScrollView, FlatList} from 'react-native';
+import Firebase from "../../../config/keys";
+import Tender from "../../components/tender";
 
 
 export default class TenderDetail extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            tenders: [],
+        }
+    }
+
+    componentDidMount() {
+        const user = Firebase.auth().currentUser;
+        Firebase.database()
+            .ref('/tenders')
+            .on('value', snapshot => {
+                var tenders = [];
+                snapshot.forEach((item) => {
+                    tenders.push({
+                        userId:item.val().userId,
+                        id:item.key,
+                        car_brand: item.val().car_brand,
+                        car_price: item.val().car_price,
+                    })
+                })
+                this.setState({tenders})
+            });
+    }
+
+    renderItem = ({item}) => {
+        return (
+            <View><Text>{item.car_brand}</Text></View>
+        )
+    }
+
 
     render () {
         return (
-            <View style={style.container}>
-                <ScrollView>
-                    <View style={style.tenders}>
-                        <Text style={{alignItems: 'center', justifyContent:'center', fontSize:26, color:'#0cda8f'}}>ARAÇ DETAY SAYFASI</Text>
-                    </View>
-                </ScrollView>
-            </View>
+            <FlatList data={this.state.tenders} renderItem={this.renderItem} />
         )
     }
 }

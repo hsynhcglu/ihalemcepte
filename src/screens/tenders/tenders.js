@@ -1,41 +1,83 @@
 import React, {Component} from "react";
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, FlatList} from 'react-native';
 import TenderDetail from "../tendersdetail";
+import Firebase from "../../../config/keys";
+import NavigationService from "../../NavigationService";
+
+export default class Tenders extends React.Component{
+
+    constructor() {
+        super();
+        this.state = {
+            tenders: [],
+        }
+    }
+
+    getData = () => {
+        Firebase.database()
+            .ref('/tenders')
+            .on('value', snapshot => {
+                var tenders = [];
+                snapshot.forEach((item) => {
+                    tenders.push({
+                        userId:item.val().userId,
+                        id:item.key,
+                        car_brand: item.val().car_brand,
+                        car_price: item.val().car_price,
+                    })
+                })
+                this.setState({tenders})
+            });
+    }
+
+    componentDidMount() {
+        const user = Firebase.auth().currentUser;
+        this.getData();
+    }
 
 
-const Tenders = ({ navigation }) => {
-
-    return (
-        <View style={style.container}>
-            <ScrollView>
-                <View style={style.tenders}>
-                    <TouchableOpacity onPress={() => {
-                        navigation.navigate('TenderDetail')
-                    }}>
-                        <View style={style.tenders_item} >
-                            <View style={style.tenders_info}>
-                                <View style={style.item}>
-                                    <Text style={style.tenders_text}>İhalenin Bitişine Kalan Süre</Text>
-                                </View>
-                                <View style={style.item}>
-                                    <Text style={style.tender_text_price}>14 DK</Text>
-                                </View>
+    renderItem = ({item}) => {
+        return (
+            <View style={style.tenders}>
+                <TouchableOpacity onPress={() => {
+                    NavigationService.navigate('TenderDetail', {
+                        id:item.key,
+                        user: item.userId,
+                    })
+                }}>
+                    <View style={style.tenders_item} >
+                        <View style={style.tenders_info}>
+                            <View style={style.item}>
+                                <Text style={style.tenders_text}>İhalenin Bitişine Kalan Süre</Text>
                             </View>
-                            <Image style={style.tenders_image} source={require('../../images/gtr.jpg')} />
-                            <View style={style.tenders_info}>
-                                <View style={style.item}>
-                                    <Text style={style.tenders_text}>Nissan GTR</Text>
-                                </View>
-                                <View style={style.item}>
-                                    <Text style={style.tender_text_price}>En Yüksek Teklif: 1.350.000₺</Text>
-                                </View>
+                            <View style={style.item}>
+                                <Text style={style.tender_text_price}>14 DK</Text>
                             </View>
                         </View>
-                    </TouchableOpacity>
-                </View>
-            </ScrollView>
-        </View>
-    )
+                        <Image style={style.tenders_image} source={require('../../images/gtr.jpg')} />
+                        <View style={style.tenders_info}>
+                            <View style={style.item}>
+                                <Text style={style.tenders_text}>{item.car_brand}</Text>
+                            </View>
+                            <View style={style.item}>
+                                <Text style={style.tender_text_price}>En Yüksek Teklif: {item.car_price}₺</Text>
+                            </View>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
+    render() {
+        return (
+            <View style={style.container}>
+                <ScrollView>
+                    <FlatList data={this.state.tenders} renderItem={this.renderItem} />
+                </ScrollView>
+            </View>
+        )
+    }
 }
 
 
@@ -97,4 +139,3 @@ const style = StyleSheet.create({
 
 });
 
-export default Tenders;

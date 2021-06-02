@@ -19,7 +19,7 @@ export default class Register extends React.Component {
         Firebase.auth()
             .createUserWithEmailAndPassword(values.email, values.password)
             .then(() => alert('Kayıt Başarılı!'))
-            .catch(error => console.log(error))
+            .catch(error => alert('Hata! Kayıt Gerçekleştirilemedi.'))
     };
 
     render () {

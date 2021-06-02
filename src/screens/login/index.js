@@ -19,7 +19,7 @@ export default class Login extends React.Component {
         Firebase.auth()
             .signInWithEmailAndPassword(values.email, values.password)
             .then(() => this.props.navigation.navigate('Tenders'))
-            .catch(error => alert('Hata! Böyle bir hesap bulunmamaktadır.'))
+            .catch(error => alert('Hata! Şifreniz hatalı veya girdiğiniz maile ait hesap bulunmamaktadır.'))
     };
 
     render () {
@@ -52,7 +52,7 @@ export default class Login extends React.Component {
                                         values={values.email}
                                         onChangeText={handleChange('email')}
                                     />
-                                    {(errors.username) && <Text style={style.alert}>{errors.username}</Text>}
+                                    {(errors.email) && <Text style={style.alert}>{errors.email}</Text>}
                                 </View>
                                 <View style={style.item}>
                                     <View style={{justifyContent:'center'}}>
