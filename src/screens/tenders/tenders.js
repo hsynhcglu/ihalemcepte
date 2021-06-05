@@ -20,10 +20,14 @@ export default class Tenders extends React.Component{
                 var tenders = [];
                 snapshot.forEach((item) => {
                     tenders.push({
-                        userId:item.val().userId,
                         id:item.key,
+                        userId:item.val().userId,
                         car_brand: item.val().car_brand,
                         car_price: item.val().car_price,
+                        car_model: item.val().car_model,
+                        car_year: item.val().car_year,
+                        car_km: item.val().car_km,
+                        car_color: item.val().car_color,
                     })
                 })
                 this.setState({tenders})
@@ -41,8 +45,13 @@ export default class Tenders extends React.Component{
             <View style={style.tenders}>
                 <TouchableOpacity onPress={() => {
                     NavigationService.navigate('TenderDetail', {
-                        id:item.key,
-                        user: item.userId,
+                        id:item.id,
+                        car_brand: item.car_brand,
+                        car_price: item.car_price,
+                        car_model: item.car_model,
+                        car_year: item.car_year,
+                        car_km: item.car_km,
+                        car_color: item.car_color,
                     })
                 }}>
                     <View style={style.tenders_item} >
@@ -73,7 +82,10 @@ export default class Tenders extends React.Component{
         return (
             <View style={style.container}>
                 <ScrollView>
-                    <FlatList data={this.state.tenders} renderItem={this.renderItem} />
+                    <FlatList
+                        data={this.state.tenders}
+                        renderItem={this.renderItem}
+                        keyExtractor={ (item, index) => index.toString() } />
                 </ScrollView>
             </View>
         )
@@ -117,9 +129,6 @@ const style = StyleSheet.create({
         fontSize:18,
         fontWeight: '700',
         color: '#ffffff',
-    },
-    item: {
-
     },
     container: {
         flex:1,
